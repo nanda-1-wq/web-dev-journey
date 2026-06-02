@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web Dev Bootcamp Syllabus</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f0e8;
+    --ink: #1a1510;
+    --accent: #c0392b;
+    --accent2: #e67e22;
+    --accent3: #27ae60;
+    --mid: #7f8c8d;
+    --card: #fffdf7;
+    --border: #ddd5c5;
+    --tag: #2c3e50;
+    --shadow: rgba(26,21,16,0.12);
+    --surface: #f0ebe0;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+  /* HERO */
+  .hero {
+    padding: 72px 0 40px;
+    border-bottom: 3px solid var(--ink);
+    margin-bottom: 48px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    align-items: end;
+  }
+  .hero-edition {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero-edition::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 2px;
+    background: var(--accent);
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: clamp(48px, 9vw, 84px);
+    line-height: 1.0;
+    color: var(--ink);
+    letter-spacing: -1px;
+  }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero-sub {
+    margin-top: 18px;
+    font-size: 14px;
+    color: var(--mid);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+  .hero-sub strong { color: var(--ink); font-weight: 600; }
+  .hero-big {
+    font-family: 'Playfair Display', serif;
+    font-size: 110px;
+    font-weight: 900;
+    color: var(--border);
+    line-height: 1;
+    user-select: none;
+    align-self: flex-end;
+  }
+
+  /* STATS BAR */
+  .stats-bar {
+    display: flex;
+    gap: 0;
+    margin-bottom: 48px;
+    border: 2px solid var(--ink);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+  .stat {
+    flex: 1;
+    padding: 20px 16px;
+    text-align: center;
+    border-right: 1.5px solid var(--border);
+    background: var(--card);
+    transition: background 0.2s;
+  }
+  .stat:last-child { border-right: none; }
+  .stat:hover { background: var(--surface); }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 34px;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 10px;
+    color: var(--mid);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 5px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--mid);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* LEARNING PATH */
+  .path-visual {
+    background: var(--card);
+    border: 2px solid var(--ink);
+    border-radius: 4px;
+    padding: 28px 32px;
+    margin-bottom: 48px;
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+  .path-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1.5px solid var(--border);
+    color: var(--ink);
+  }
+  .path-nodes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0;
+  }
+  .path-node { display: flex; flex-direction: column; align-items: center; gap: 5px; flex-shrink: 0; }
+  .path-node-box {
+    padding: 7px 13px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    border: 1.5px solid;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: default;
+  }
+  .path-node-box:hover { transform: translateY(-3px); box-shadow: 2px 3px 0 var(--ink); }
+  .path-arrow { font-size: 16px; color: var(--border); padding: 0 6px; margin-bottom: 18px; align-self: center; }
+  .path-node-label { font-size: 10px; color: var(--mid); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px; }
+  .n-html { background: rgba(192,57,43,0.08); color: #c0392b; border-color: rgba(192,57,43,0.3); }
+  .n-css  { background: rgba(41,128,185,0.08); color: #2980b9; border-color: rgba(41,128,185,0.3); }
+  .n-js   { background: rgba(230,176,0,0.1);   color: #b8860b; border-color: rgba(230,176,0,0.35); }
+  .n-react{ background: rgba(0,150,170,0.08);  color: #0096aa; border-color: rgba(0,150,170,0.3); }
+  .n-node { background: rgba(39,174,96,0.08);  color: #27ae60; border-color: rgba(39,174,96,0.3); }
+  .n-sql  { background: rgba(155,89,182,0.08); color: #8e44ad; border-color: rgba(155,89,182,0.3); }
+  .n-web3 { background: rgba(230,126,34,0.08); color: #d35400; border-color: rgba(230,126,34,0.3); }
+
+  /* PHASES */
+  .phases { margin-bottom: 56px; }
+  .phase {
+    position: relative;
+    padding-left: 44px;
+    margin-bottom: 10px;
+  }
+  .phase::before {
+    content: '';
+    position: absolute;
+    left: 16px;
+    top: 0;
+    bottom: -10px;
+    width: 2px;
+    background: var(--border);
+  }
+  .phase:last-child::before { display: none; }
+  .phase-dot {
+    position: absolute;
+    left: 8px;
+    top: 17px;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    background: var(--bg);
+    z-index: 2;
+    transition: all 0.2s;
+  }
+  .phase.open .phase-dot { background: var(--accent); box-shadow: 0 0 0 3px rgba(192,57,43,0.15); }
+
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    cursor: pointer;
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .phase-header:hover { border-color: var(--accent); background: var(--surface); box-shadow: 3px 3px 0 var(--shadow); }
+  .phase.open .phase-header {
+    border-color: var(--ink);
+    background: var(--card);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-color: var(--border);
+    box-shadow: 3px 0 0 var(--ink), -3px 0 0 var(--ink), 0 -3px 0 var(--ink);
+  }
+  .phase-icon {
+    font-size: 18px;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .phase-title {
+    flex: 1;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .phase-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border: 1px solid;
+  }
+  .tag-fe   { background: rgba(41,128,185,0.08);  color: #2980b9;  border-color: rgba(41,128,185,0.25); }
+  .tag-be   { background: rgba(39,174,96,0.08);   color: #27ae60;  border-color: rgba(39,174,96,0.25); }
+  .tag-js   { background: rgba(230,176,0,0.1);    color: #b8860b;  border-color: rgba(230,176,0,0.3); }
+  .tag-db   { background: rgba(155,89,182,0.08);  color: #8e44ad;  border-color: rgba(155,89,182,0.25); }
+  .tag-web3 { background: rgba(230,126,34,0.08);  color: #d35400;  border-color: rgba(230,126,34,0.25); }
+  .tag-tool { background: rgba(127,140,141,0.08); color: #7f8c8d;  border-color: rgba(127,140,141,0.25); }
+  .tag-fdn  { background: rgba(192,57,43,0.08);   color: #c0392b;  border-color: rgba(192,57,43,0.25); }
+
+  .phase-chevron {
+    color: var(--mid);
+    font-size: 14px;
+    transition: transform 0.3s;
+  }
+  .phase.open .phase-chevron { transform: rotate(180deg); color: var(--accent); }
+
+  .phase-content {
+    display: none;
+    background: var(--card);
+    border: 1.5px solid var(--ink);
+    border-top: none;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    padding: 20px;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .phase.open .phase-content { display: block; }
+
+  .topic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 7px;
+  }
+  .topic-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    padding: 7px 10px;
+    border-radius: 3px;
+    background: var(--surface);
+    font-size: 13px;
+    color: var(--mid);
+    transition: all 0.15s;
+    border: 1px solid transparent;
+  }
+  .topic-item:hover { color: var(--ink); background: var(--bg); border-color: var(--border); }
+  .topic-item::before {
+    content: '→';
+    color: var(--accent);
+    font-size: 11px;
+    margin-top: 1px;
+    flex-shrink: 0;
+  }
+
+  /* FAQ */
+  .faq-section { margin-bottom: 56px; }
+  .faq-item { border-bottom: 1.5px solid var(--border); overflow: hidden; }
+  .faq-q {
+    padding: 18px 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    transition: color 0.2s;
+    user-select: none;
+  }
+  .faq-q:hover { color: var(--accent); }
+  .faq-icon { font-size: 18px; color: var(--mid); flex-shrink: 0; transition: transform 0.3s; }
+  .faq-item.open .faq-icon { transform: rotate(45deg); color: var(--accent); }
+  .faq-a {
+    display: none;
+    padding: 0 0 18px;
+    font-size: 14px;
+    color: var(--mid);
+    line-height: 1.75;
+  }
+  .faq-a strong { color: var(--ink); }
+  .faq-item.open .faq-a { display: block; }
+
+  /* PROGRESS TRACKER */
+  .tracker {
+    position: sticky;
+    bottom: 20px;
+    display: flex;
+    justify-content: center;
+    margin: 40px 0;
+    z-index: 100;
+  }
+  .tracker-inner {
+    background: var(--ink);
+    color: var(--bg);
+    border-radius: 100px;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 12px;
+    box-shadow: 0 8px 28px rgba(26,21,16,0.25);
+  }
+  .tracker-bar {
+    width: 90px;
+    height: 4px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .tracker-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 2px;
+    transition: width 0.5s ease;
+  }
+  .tracker-pct {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    color: var(--accent2);
+  }
+
+  footer {
+    text-align: center;
+    padding: 32px 0 56px;
+    color: var(--mid);
+    font-size: 12px;
+    border-top: 2px solid var(--border);
+  }
+  footer span { color: var(--accent); font-weight: 600; }
+
+  @media (max-width: 600px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-big { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div>
+      <div class="hero-edition">Complete Bootcamp · Dr. Angela Yu · App Brewery</div>
+      <h1>Web Dev<br><em>Bootcamp</em></h1>
+      <p class="hero-sub">Your complete guide to becoming a <strong>Full-Stack Developer</strong> —<br>from zero to deployed, production-ready apps.</p>
+    </div>
+    <div class="hero-big">WD</div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-num">12</div><div class="stat-label">Weeks In-Person</div></div>
+    <div class="stat"><div class="stat-num">10</div><div class="stat-label">Core Modules</div></div>
+    <div class="stat"><div class="stat-num">60+</div><div class="stat-label">Topics Covered</div></div>
+    <div class="stat"><div class="stat-num">∞</div><div class="stat-label">Projects to Build</div></div>
+  </div>
+
+  <!-- LEARNING PATH -->
+  <div class="section-label">Your Learning Path</div>
+  <div class="path-visual">
+    <div class="path-title">From Zero → Full-Stack Developer</div>
+    <div class="path-nodes">
+      <div class="path-node"><div class="path-node-box n-html">HTML5</div><div class="path-node-label">Structure</div></div>
+      <div class="path-arrow">›</div>
+      <div class="path-node"><div class="path-node-box n-css">CSS3</div><div class="path-node-label">Style</div></div>
+      <div class="path-arrow">›</div>
+      <div class="path-node"><div class="path-node-box n-js">JavaScript</div><div class="path-node-label">Logic</div></div>
+      <div class="path-arrow">›</div>
+      <div class="path-node"><div class="path-node-box n-react">React.js</div><div class="path-node-label">Frontend</div></div>
+      <div class="path-arrow">›</div>
+      <div class="path-node"><div class="path-node-box n-node">Node.js</div><div class="path-node-label">Backend</div></div>
+      <div class="path-arrow">›</div>
+      <div class="path-node"><div class="path-node-box n-sql">PostgreSQL</div><div class="path-node-label">Database</div></div>
+      <div class="path-arrow">›</div>
+      <div class="path-node"><div class="path-node-box n-web3">Web3</div><div class="path-node-label">Blockchain</div></div>
+    </div>
+  </div>
+
+  <!-- MODULES -->
+  <div class="section-label">Course Modules — Click to Expand</div>
+  <div class="phases" id="phases">
+
+    <div class="phase open">
+      <div class="phase-dot"></div>
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-icon">🌐</div>
+        <div class="phase-title">Web Development Fundamentals</div>
+        <div class="phase-tag tag-fdn">FOUNDATION</div>
+        <div class="phase-chevron">▾</div>
+      </div>
+      <div class="phase-content">
+        <div class="topic-grid">
+          <div class="topic-item">How websites & the internet work</div>
+          <div class="topic-item">HTML, CSS & JS — what each does</div>
+          <div class="topic-item">Git & GitHub version control</div>
+          <div class="topic-item">Debugging & troubleshooting skills</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-dot"></div>
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-icon">🏗️</div>
+        <div class="phase-title">HTML5</div>
+        <div class="phase-tag tag-fe">FRONT-END</div>
+        <div class="phase-chevron">▾</div>
+      </div>
+      <div class="phase-content">
+        <div class="topic-grid">
+          <div class="topic-item">HTML syntax anatomy & boilerplate</div>
+          <div class="topic-item">Headings, paragraphs & lists</div>
+          <div class="topic-item">Images & hyperlinks with anchor tags</div>
+          <div class="topic-item">Indentation & nesting best practices</div>
+          <div class="topic-item">Multi-page website structure</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-dot"></div>
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-icon">🎨</div>
+        <div class="phase-title">CSS3 + Flexbox + Grid + Bootstrap</div>
+        <div class="phase-tag tag-fe">FRONT-END</div>
+        <div class="phase-chevron">▾</div>
+      </div>
+      <div class="phase-content">
+        <div class="topic-grid">
+          <div class="topic-item">Selectors, properties & specificity</div>
+          <div class="topic-item">Inline, internal & external CSS</div>
+          <div class="topic-item">The CSS Box Model</div>
+          <div class="topic-item">Positioning & display properties</div>
+          <div class="topic-item">Flexbox layout system</div>
+          <div class="topic-item">CSS Grid for complex layouts</div>
+          <div class="topic-item">Media queries for responsiveness</div>
+          <div class="topic-item">Bootstrap 12-column system</div>
+          <div class="topic-item">Bootstrap components & icons</div>
+          <div class="topic-item">Web design: color theory & typography</div>
+          <div class="topic-item">UI/UX design principles</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-dot"></div>
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-icon">⚡</div>
+        <div class="phase-title">JavaScript ES6</div>
+        <div class="phase-tag tag-js">JAVASCRIPT</div>
+        <div class="phase-chevron">▾</div>
+      </div>
+      <div class="phase-content">
+        <div class="topic-grid">
+          <div class="topic-item">Variables: let & const</div>
+          <div class="topic-item">Data types & operators</div>
+          <div class="topic-item">If/else, for & while loops</div>
+          <div class="topic-item">Functions & arrow functions</div>
+          <div class="topic-item">Scope & closures</div>
+          <div class="topic-item">Higher-order functions</div>
+          <div class="topic-item">Arrays: map, filter, reduce</div>
+          <div class="topic-item">Spread syntax (...)</div>
+          <div class="topic-item">Object-oriented programming</div>
+          <div class="topic-item">Classes & constructor functions</div>
+          <div class="topic-item">The this & super keywords</div>
+          <div class="topic-item">DOM Manipulation</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-dot"></div>
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-icon">🔧</div>
+        <div class="phase-title">Tools: Unix CLI + Git + GitHub</div>
+        <div class="phase-tag tag-tool">TOOLS</div>
+        <div class="phase-chevron">▾</div>
+      </div>
+      <div class="phase-content">
+        <div class="topic-grid">
+          <div class="topic-item">Basic bash/terminal commands</div>
+          <div class="topic-item">Navigating files without a GUI</div>
+          <div class="topic-item">Git: commit, push, pull</div>
+          <div class="topic-item">Forking, branching & cloning</div>
+          <div class="topic-item">GitHub as remote repository</div>
+          <div class="topic-item">Rolling back changes with git</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-dot"></div>
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-icon">⚛️</div>
+        <div class="phase-title">React.js</div>
+        <div class="phase-tag tag-fe">FRONT-END</div>
+        <div class="phase-chevron">▾</div>
+      </div>
+      <div class="phase-content">
+        <div class="topic-grid">
+          <div class="topic-item">React Components</div>
+          <div class="topic-item">JSX syntax</div>
+          <div class="topic-item">Props & State</div>
+          <div class="topic-item">React Hooks</div>
+          <div class="topic-item">Conditional rendering</div>
+          <div class="topic-item">React DOM</div>
+          <div class="topic-item">Class vs functional components</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-dot"></div>
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-icon">🖥️</div>
+        <div class="phase-title">Node.js + Express.js + APIs + EJS</div>
+        <div class="phase-tag tag-be">BACK-END</div>
+        <div class="phase-chevron">▾</div>
+      </div>
+      <div class="phase-content">
+        <div class="topic-grid">
+          <div class="topic-item">Server-side JavaScript</div>
+          <div class="topic-item">Node on the command line</div>
+          <div class="topic-item">NPM & modules</div>
+          <div class="topic-item">Event loop & file system</div>
+          <div class="topic-item">Express servers & routing</div>
+          <div class="topic-item">RESTful routing with Express</div>
+          <div class="topic-item">Middleware</div>
+          <div class="topic-item">Understanding APIs & HTTP</div>
+          <div class="topic-item">Calling APIs & reading docs</div>
+          <div class="topic-item">JSON vs XML</div>
+          <div class="topic-item">EJS templating</div>
+          <div class="topic-item">Passing data server ↔ template</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-dot"></div>
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-icon">🗄️</div>
+        <div class="phase-title">SQL + PostgreSQL Databases</div>
+        <div class="phase-tag tag-db">DATABASE</div>
+        <div class="phase-chevron">▾</div>
+      </div>
+      <div class="phase-content">
+        <div class="topic-grid">
+          <div class="topic-item">Relational databases concepts</div>
+          <div class="topic-item">Database schemas & design</div>
+          <div class="topic-item">CRUD: Create, Read, Update, Delete</div>
+          <div class="topic-item">SQL queries & joins</div>
+          <div class="topic-item">PostgreSQL installation & setup</div>
+          <div class="topic-item">One-to-Many, Many-to-Many relations</div>
+          <div class="topic-item">pg package: Postgres in Node.js</div>
+          <div class="topic-item">ORM & Entity Relationship Modelling</div>
+          <div class="topic-item">Authentication, hashing & salting</div>
+          <div class="topic-item">Sessions, cookies & OAuth 2.0</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-dot"></div>
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-icon">🔗</div>
+        <div class="phase-title">Web3 & Blockchain Development</div>
+        <div class="phase-tag tag-web3">WEB3</div>
+        <div class="phase-chevron">▾</div>
+      </div>
+      <div class="phase-content">
+        <div class="topic-grid">
+          <div class="topic-item">Web3 & blockchain fundamentals</div>
+          <div class="topic-item">Canisters & Motoko actors</div>
+          <div class="topic-item">Deploy CV website on blockchain</div>
+          <div class="topic-item">React frontend + blockchain backend</div>
+          <div class="topic-item">Create your own crypto token (ERC-20)</div>
+          <div class="topic-item">NFT + OpenSea-style marketplace (ERC-721)</div>
+          <div class="topic-item">Internet Computer & cycles</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-dot"></div>
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-icon">🚀</div>
+        <div class="phase-title">Deployment</div>
+        <div class="phase-tag tag-tool">DEPLOYMENT</div>
+        <div class="phase-chevron">▾</div>
+      </div>
+      <div class="phase-content">
+        <div class="topic-grid">
+          <div class="topic-item">GitHub Pages (static sites)</div>
+          <div class="topic-item">Heroku (server-based apps)</div>
+          <div class="topic-item">Mongo Atlas (databases)</div>
+          <div class="topic-item">Building RESTful APIs from scratch</div>
+          <div class="topic-item">GET, POST, PUT, PATCH, DELETE</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /phases -->
+
+  <!-- FAQ -->
+  <div class="section-label">FAQs</div>
+  <div class="faq-section">
+    <div class="faq-item open">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span>Can a complete beginner join this bootcamp?</span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">Absolutely! The course is designed for all levels. The youngest student was 11, the oldest 86. Some didn't even know what a website was when they started. All you need is <strong>perseverance and willingness to learn</strong>.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span>How long will this take to complete?</span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">In-person it runs over 12 weeks. Online students have completed it in as little as 3 weeks working full-time, or longer part-time. It's entirely at your own pace on Udemy.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span>Is the Udemy course the same as in-person?</span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">Yes! The online Udemy bootcamp has the <strong>exact same curriculum</strong> as the in-person bootcamp. The in-person version only runs once per year and is waitlist-based — Udemy is available anytime.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span>Where should I take the course — Udemy or appbrewery.com?</span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">Since 2019, all courses moved to <strong>Udemy</strong>. Get it from there.</div>
+    </div>
+  </div>
+
+  <!-- STICKY PROGRESS TRACKER -->
+  <div class="tracker">
+    <div class="tracker-inner">
+      <span>Modules explored</span>
+      <div class="tracker-bar"><div class="tracker-fill" id="progressFill" style="width:0%"></div></div>
+      <span class="tracker-pct" id="progressPct">0 / 10</span>
+    </div>
+  </div>
+
+  <footer>
+    Built for <span>AIT Year 1</span> · Dr. Angela Yu's Complete Web Dev Bootcamp · App Brewery
+  </footer>
+
+</div>
+
+<script>
+function togglePhase(btn) {
+  const phase = btn.closest('.phase');
+  phase.classList.toggle('open');
+  updateProgress();
+}
+function toggleFaq(q) {
+  q.closest('.faq-item').classList.toggle('open');
+}
+function updateProgress() {
+  const all = document.querySelectorAll('.phase').length;
+  const open = document.querySelectorAll('.phase.open').length;
+  document.getElementById('progressFill').style.width = Math.round((open/all)*100) + '%';
+  document.getElementById('progressPct').textContent = open + ' / ' + all;
+}
+updateProgress();
+</script>
+</body>
+</html>

@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>12 Rules to Learn to Code</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f0e8;
+    --ink: #1a1510;
+    --accent: #c0392b;
+    --accent2: #e67e22;
+    --mid: #7f8c8d;
+    --card: #fffdf7;
+    --border: #ddd5c5;
+    --tag: #2c3e50;
+    --shadow: rgba(26,21,16,0.12);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+  }
+  /* Paper texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container { max-width: 860px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+  /* COVER */
+  .cover {
+    padding: 80px 0 56px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: end;
+    border-bottom: 3px solid var(--ink);
+    margin-bottom: 56px;
+  }
+  .cover-edition {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .cover-edition::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 2px;
+    background: var(--accent);
+  }
+  .cover h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: clamp(48px, 8vw, 80px);
+    line-height: 1.0;
+    color: var(--ink);
+    letter-spacing: -1px;
+  }
+  .cover h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+  .cover-meta {
+    margin-top: 24px;
+    font-size: 14px;
+    color: var(--mid);
+    font-weight: 300;
+  }
+  .cover-meta strong { color: var(--ink); font-weight: 600; }
+  .cover-stat-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-end;
+  }
+  .cover-big {
+    font-family: 'Playfair Display', serif;
+    font-size: 120px;
+    font-weight: 900;
+    color: var(--border);
+    line-height: 1;
+    user-select: none;
+  }
+
+  /* TOC */
+  .toc {
+    background: var(--card);
+    border: 2px solid var(--ink);
+    border-radius: 4px;
+    padding: 32px;
+    margin-bottom: 56px;
+    box-shadow: 6px 6px 0 var(--ink);
+  }
+  .toc-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+  }
+  .toc-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .toc-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.15s;
+    text-decoration: none;
+    color: var(--ink);
+    font-size: 13px;
+  }
+  .toc-item:hover { background: rgba(192,57,43,0.08); }
+  .toc-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 600;
+    width: 24px;
+    flex-shrink: 0;
+  }
+
+  /* RULES */
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .rules-grid { display: grid; gap: 24px; margin-bottom: 56px; }
+
+  .rule-card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: box-shadow 0.2s, transform 0.2s;
+    cursor: pointer;
+  }
+  .rule-card:hover {
+    box-shadow: 5px 5px 0 var(--ink);
+    transform: translate(-2px, -2px);
+  }
+  .rule-card.open { box-shadow: 5px 5px 0 var(--accent); }
+  .rule-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    user-select: none;
+  }
+  .rule-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 900;
+    color: var(--border);
+    line-height: 1;
+    min-width: 52px;
+    transition: color 0.2s;
+  }
+  .rule-card:hover .rule-number, .rule-card.open .rule-number { color: var(--accent); }
+  .rule-title-wrap { flex: 1; }
+  .rule-rule-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .rule-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-top: 2px;
+  }
+  .rule-toggle {
+    width: 28px;
+    height: 28px;
+    border: 1.5px solid var(--border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: var(--mid);
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .rule-card.open .rule-toggle {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: rotate(45deg);
+  }
+  .rule-body {
+    display: none;
+    padding: 0 24px 24px;
+    border-top: 1.5px solid var(--border);
+    padding-top: 20px;
+  }
+  .rule-card.open .rule-body { display: block; }
+  .rule-body p {
+    font-size: 14px;
+    line-height: 1.8;
+    color: #2c2c2c;
+    margin-bottom: 12px;
+  }
+  .rule-body p:last-child { margin-bottom: 0; }
+  .rule-tldr {
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: rgba(192,57,43,0.06);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 4px 4px 0;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .rule-tldr span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .quote-block {
+    margin: 16px 0 0;
+    padding: 12px 16px;
+    background: rgba(0,0,0,0.03);
+    border-left: 3px solid var(--border);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--mid);
+  }
+  .quote-attr { display: block; margin-top: 6px; font-style: normal; font-size: 11px; color: var(--mid); }
+
+  /* KEY TAKEAWAYS */
+  .takeaways {
+    background: var(--ink);
+    color: var(--bg);
+    border-radius: 4px;
+    padding: 40px;
+    margin-bottom: 56px;
+  }
+  .takeaways h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 24px;
+    color: #fff;
+  }
+  .takeaway-list { display: grid; gap: 12px; }
+  .takeaway-item {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    font-size: 13px;
+    color: rgba(245,240,232,0.8);
+    line-height: 1.6;
+  }
+  .takeaway-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent2);
+    background: rgba(230,126,34,0.15);
+    padding: 3px 7px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    font-weight: 600;
+  }
+
+  footer {
+    text-align: center;
+    padding: 32px 0 48px;
+    color: var(--mid);
+    font-size: 12px;
+    border-top: 2px solid var(--border);
+    margin-top: 0;
+  }
+  footer span { color: var(--accent); }
+
+  @media (max-width: 600px) {
+    .cover { grid-template-columns: 1fr; }
+    .cover-big { display: none; }
+    .toc-list { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="cover">
+    <div>
+      <div class="cover-edition">2nd Edition · 2022 · App Brewery</div>
+      <h1>12 Rules to<br>Learn to <em>Code</em></h1>
+      <div class="cover-meta">By <strong>Dr. Angela Yu</strong> · Senior Developer & Lead Instructor at The App Brewery<br>After teaching a million students, here are the best ways to learn programming.</div>
+    </div>
+    <div class="cover-stat-stack">
+      <div class="cover-big">12</div>
+    </div>
+  </div>
+
+  <!-- TABLE OF CONTENTS -->
+  <div class="toc">
+    <div class="toc-title">Table of Contents</div>
+    <div class="toc-list">
+      <a href="#rule-1" class="toc-item"><span class="toc-num">01</span>Trick Your Brain with the 20 Minute Rule</a>
+      <a href="#rule-2" class="toc-item"><span class="toc-num">02</span>Code for a Purpose</a>
+      <a href="#rule-3" class="toc-item"><span class="toc-num">03</span>There is No "Perfect" Language</a>
+      <a href="#rule-4" class="toc-item"><span class="toc-num">04</span>Understand What You're Writing</a>
+      <a href="#rule-5" class="toc-item"><span class="toc-num">05</span>It's OK to Not Know</a>
+      <a href="#rule-6" class="toc-item"><span class="toc-num">06</span>Be a Copycat</a>
+      <a href="#rule-7" class="toc-item"><span class="toc-num">07</span>Be Accountable</a>
+      <a href="#rule-8" class="toc-item"><span class="toc-num">08</span>Keep Learning</a>
+      <a href="#rule-9" class="toc-item"><span class="toc-num">09</span>Play Foosball</a>
+      <a href="#rule-10" class="toc-item"><span class="toc-num">10</span>Get a Mentor</a>
+      <a href="#rule-11" class="toc-item"><span class="toc-num">11</span>Get into the Habit of Chunking</a>
+      <a href="#rule-12" class="toc-item"><span class="toc-num">12</span>Break Someone Else's Code</a>
+    </div>
+  </div>
+
+  <div class="section-label">The 12 Rules — Click any rule to read</div>
+
+  <div class="rules-grid">
+
+    <!-- RULE 1 -->
+    <div class="rule-card open" id="rule-1" onclick="toggleRule(this)">
+      <div class="rule-header">
+        <div class="rule-number">01</div>
+        <div class="rule-title-wrap">
+          <div class="rule-rule-tag">Rule One</div>
+          <div class="rule-title">Trick Your Brain with the 20 Minute Rule</div>
+        </div>
+        <div class="rule-toggle">+</div>
+      </div>
+      <div class="rule-body">
+        <p>Learning to code is like going to the gym. Even spending a whole weekend coding won't create a visible difference — but coding <em>regularly</em> will build your "coding muscles" over time.</p>
+        <p>The trick: as soon as you get home, tell yourself you'll code for <strong>just 20 minutes</strong>. Your brain won't resist 20 minutes. Once you start, inertia kicks in and you'll likely code for an hour or more.</p>
+        <p>To build the habit, use a monthly calendar. Mark each day you code with a line. Don't break the streak. That single unbroken line is surprisingly motivating.</p>
+        <div class="rule-tldr"><span>TL;DR — Your Action</span>Every day, open your laptop and code for at least 20 minutes. Just getting started is the hardest part.</div>
+      </div>
+    </div>
+
+    <!-- RULE 2 -->
+    <div class="rule-card" id="rule-2" onclick="toggleRule(this)">
+      <div class="rule-header">
+        <div class="rule-number">02</div>
+        <div class="rule-title-wrap">
+          <div class="rule-rule-tag">Rule Two</div>
+          <div class="rule-title">Code for a Purpose</div>
+        </div>
+        <div class="rule-toggle">+</div>
+      </div>
+      <div class="rule-body">
+        <p>Don't learn to code for the sake of learning to code. Skills requiring a lot of practice need a deep internal motivation — something from within that makes you forget to eat and sleep.</p>
+        <p>Instead, start by following tutorials that actually <em>make something</em>. It could be a dice game, a flashcard app, or a to-do list. As long as you build something you can use and play with, you'll stay motivated.</p>
+        <p>App Brewery students have built: an app that wakes them up 1 minute earlier every day, a custom mother's day slideshow, a steak timer. The possibilities are limited only by your imagination.</p>
+        <div class="rule-tldr"><span>TL;DR — Your Action</span>Think of ONE simple app you want to build. Keep it in mind throughout this course as your goal.</div>
+        <div class="quote-block">"You don't hire for skills, you hire for attitude. You can always teach skills." <span class="quote-attr">— Simon Sinek</span></div>
+      </div>
+    </div>
+
+    <!-- RULE 3 -->
+    <div class="rule-card" id="rule-3" onclick="toggleRule(this)">
+      <div class="rule-header">
+        <div class="rule-number">03</div>
+        <div class="rule-title-wrap">
+          <div class="rule-rule-tag">Rule Three</div>
+          <div class="rule-title">There is No "Perfect" Language to Learn</div>
+        </div>
+        <div class="rule-toggle">+</div>
+      </div>
+      <div class="rule-body">
+        <p>People always ask: "Which programming language should I learn first?" — Python? JavaScript? The truth is, a programming language is just a <strong>tool</strong>. You pick the right tool for the job.</p>
+        <p>Making websites → JavaScript. Making iOS apps → Swift. Data science → Python. The good news: the <em>core concepts</em> (loops, functions, conditionals) are the same in every language. Only the syntax differs.</p>
+        <p>Since you want to build websites, JavaScript is your tool. But you're not locked in forever — once you understand programming thinking, learning new languages becomes much easier.</p>
+        <div class="rule-tldr"><span>TL;DR — Your Action</span>Stop wondering "what should I learn?" — you're learning HTML, CSS, JavaScript. That's the right choice for web development. Focus.</div>
+      </div>
+    </div>
+
+    <!-- RULE 4 -->
+    <div class="rule-card" id="rule-4" onclick="toggleRule(this)">
+      <div class="rule-header">
+        <div class="rule-number">04</div>
+        <div class="rule-title-wrap">
+          <div class="rule-rule-tag">Rule Four</div>
+          <div class="rule-title">Understand What You're Writing</div>
+        </div>
+        <div class="rule-toggle">+</div>
+      </div>
+      <div class="rule-body">
+        <p>The worst trap in programming tutorials is copying code you don't understand. You type hundreds of lines, something breaks, and you have no idea why — because you never understood what any of it does.</p>
+        <p>Good learning has a <strong>ramp</strong>: knowledge builds on previous knowledge. If the ramp is too steep, you get lost. Too shallow, you get bored. Find tutorials that explain every single step.</p>
+        <p>If a tutorial uses the word "simply" a lot, or jumps from beginner to advanced without explanation — leave it. There are better tutorials.</p>
+        <div class="rule-tldr"><span>TL;DR — Your Action</span>Never copy code you don't understand. If you paste something, read every line and ask: "Why is this here? What does this do?"</div>
+        <div class="quote-block">"You don't need more recipes. You need to learn to cook without them." <span class="quote-attr">— Tim Ferriss</span></div>
+      </div>
+    </div>
+
+    <!-- RULE 5 -->
+    <div class="rule-card" id="rule-5" onclick="toggleRule(this)">
+      <div class="rule-header">
+        <div class="rule-number">05</div>
+        <div class="rule-title-wrap">
+          <div class="rule-rule-tag">Rule Five</div>
+          <div class="rule-title">It's OK to Not Know</div>
+        </div>
+        <div class="rule-toggle">+</div>
+      </div>
+      <div class="rule-body">
+        <p>Software engineers are the profession with the largest population of <strong>Imposter Syndrome</strong> sufferers — feeling like a fraud who doesn't really belong. Studies show 70% of people have felt this.</p>
+        <p>The truth? Even senior engineers at Google use Stack Overflow every single day. There are over 9,000 methods in iOS and a new web framework every week — nobody memorises all that.</p>
+        <p>What employers value is your <em>ability to think</em> and find answers — not your ability to memorise. Always try to figure it out yourself first, then Google the error message, then ask on Stack Overflow.</p>
+        <div class="rule-tldr"><span>TL;DR — Your Action</span>When stuck: (1) Think yourself → (2) Google the error → (3) Stack Overflow. Never be ashamed to look things up.</div>
+        <div class="quote-block">"Don't be afraid to ask for help. Asking isn't a sign of weakness, it's a sign of strength." <span class="quote-attr">— Barack Obama</span></div>
+      </div>
+    </div>
+
+    <!-- RULE 6 -->
+    <div class="rule-card" id="rule-6" onclick="toggleRule(this)">
+      <div class="rule-header">
+        <div class="rule-number">06</div>
+        <div class="rule-title-wrap">
+          <div class="rule-rule-tag">Rule Six</div>
+          <div class="rule-title">Be a Copycat</div>
+        </div>
+        <div class="rule-toggle">+</div>
+      </div>
+      <div class="rule-body">
+        <p>Lacking project ideas? Don't start from scratch — clone something that already exists. Make your own Notepad. Make your own calculator. Build Tetris. Build Minesweeper. Build a Flappy Bird clone.</p>
+        <p>By building copies of existing apps, you're walking a path that millions have walked before. This means when you get stuck, people online will be able to help you — because they've hit the same walls.</p>
+        <p>Books are good references, but building is how you actually learn.</p>
+        <div class="rule-tldr"><span>TL;DR — Your Action</span>After each section of the course, pick one real-world app and try to clone a tiny piece of it using what you learned.</div>
+        <div class="quote-block">"Good artists borrow, great artists steal." <span class="quote-attr">— Pablo Picasso</span></div>
+      </div>
+    </div>
+
+    <!-- RULE 7 -->
+    <div class="rule-card" id="rule-7" onclick="toggleRule(this)">
+      <div class="rule-header">
+        <div class="rule-number">07</div>
+        <div class="rule-title-wrap">
+          <div class="rule-rule-tag">Rule Seven</div>
+          <div class="rule-title">Be Accountable</div>
+        </div>
+        <div class="rule-toggle">+</div>
+      </div>
+      <div class="rule-body">
+        <p>The biggest problem with online courses? Zero accountability. Nobody cares if you don't finish. And we can always find a reason to watch Netflix instead.</p>
+        <p>Solutions: find a <strong>coding buddy</strong> — someone at the same level. You help each other stay on track. Join communities like r/learnprogramming. Show your work publicly on GitHub.</p>
+        <p>Getting assessed matters too — objective feedback shows you your real skill level and removes both imposter syndrome AND false confidence. Only what's measured can be improved.</p>
+        <div class="rule-tldr"><span>TL;DR — Your Action</span>Tell someone about your goal. Post your progress online. Find a study buddy at AIT. Commit publicly.</div>
+      </div>
+    </div>
+
+    <!-- RULE 8 -->
+    <div class="rule-card" id="rule-8" onclick="toggleRule(this)">
+      <div class="rule-header">
+        <div class="rule-number">08</div>
+        <div class="rule-title-wrap">
+          <div class="rule-rule-tag">Rule Eight</div>
+          <div class="rule-title">Keep Learning</div>
+        </div>
+        <div class="rule-toggle">+</div>
+      </div>
+      <div class="rule-body">
+        <p>Being a good programmer is like being Madonna — the world keeps evolving, and you have to keep reinventing yourself. New frameworks, new languages, new trends appear constantly.</p>
+        <p>Great programmers relish learning new things, even if it means becoming a beginner again. Don't be the person still writing Fortran in 2024 because they refused to learn anything else.</p>
+        <p>The core programming concepts (loops, functions, logic) you learn now will last forever. The specific tools will change — and that's fine. Learning your second language is always much faster than the first.</p>
+        <div class="rule-tldr"><span>TL;DR — Your Action</span>After finishing this bootcamp, pick ONE new thing to learn next — whether it's mobile (React Native), AI (Python), or another area.</div>
+      </div>
+    </div>
+
+    <!-- RULE 9 -->
+    <div class="rule-card" id="rule-9" onclick="toggleRule(this)">
+      <div class="rule-header">
+        <div class="rule-number">09</div>
+        <div class="rule-title-wrap">
+          <div class="rule-rule-tag">Rule Nine</div>
+          <div class="rule-title">Play Foosball</div>
+        </div>
+        <div class="rule-toggle">+</div>
+      </div>
+      <div class="rule-body">
+        <p>Real programmers don't look like Hollywood hackers rapidly smashing keyboards. They mostly look like they're… staring at nothing. A lot of staring.</p>
+        <p>When you're stuck on a bug, sometimes the worst thing you can do is keep staring at it. Step away. Sleep on it. Take a walk. Play a game. In 9 out of 10 cases, the solution will appear when you stop forcing it.</p>
+        <p>The easiest code to delete is the code that was never written. Code less, think more. Poorly thought-out code written quickly always requires painful refactoring later.</p>
+        <div class="rule-tldr"><span>TL;DR — Your Action</span>When you've been stuck for more than 30 minutes: take a break. Walk around. Come back fresh. The answer will often appear immediately.</div>
+      </div>
+    </div>
+
+    <!-- RULE 10 -->
+    <div class="rule-card" id="rule-10" onclick="toggleRule(this)">
+      <div class="rule-header">
+        <div class="rule-number">10</div>
+        <div class="rule-title-wrap">
+          <div class="rule-rule-tag">Rule Ten</div>
+          <div class="rule-title">Get a Mentor</div>
+        </div>
+        <div class="rule-toggle">+</div>
+      </div>
+      <div class="rule-body">
+        <p><strong>Pair programming</strong>: a learner writes code while a mentor reviews each line in real time. You can tap into decades of accumulated wisdom in just a few hours. It's uncomfortable at first — but enormously valuable.</p>
+        <p>Good mentors don't just give you the answer — they ask questions that get you to <em>think for yourself</em> (the Socratic method). Learning to approach a problem is more valuable than memorising solutions.</p>
+        <p>How to find a mentor: go to meetup.com and find tech meetups. Offer your skills in exchange for theirs. Don't say "be my mentor" — just offer to help them in return for their help.</p>
+        <div class="rule-tldr"><span>TL;DR — Your Action</span>Find a senior student or developer at AIT. Offer to help with something they need. Exchange skills. You have more to offer than you think.</div>
+      </div>
+    </div>
+
+    <!-- RULE 11 -->
+    <div class="rule-card" id="rule-11" onclick="toggleRule(this)">
+      <div class="rule-header">
+        <div class="rule-number">11</div>
+        <div class="rule-title-wrap">
+          <div class="rule-rule-tag">Rule Eleven</div>
+          <div class="rule-title">Get into the Habit of Chunking</div>
+        </div>
+        <div class="rule-toggle">+</div>
+      </div>
+      <div class="rule-body">
+        <p>Got a big, complicated idea? It feels impossible because you're looking at it as one giant thing. The solution: <strong>chunking</strong> — break it into smaller and smaller pieces until each piece is solvable.</p>
+        <p>Example: building a "butter the toast robot" sounds complex. But broken down: (1) pick up toast and position it, (2) pick up butter, (3) spread butter on toast. Each piece is now solvable. Then break those down further.</p>
+        <p>This is the single most important programming skill: taking a huge problem and breaking it into bite-sized chunks. Practice it on every project.</p>
+        <div class="rule-tldr"><span>TL;DR — Your Action</span>Before writing any code, write out your plan in plain English. Break the problem into 3-5 sub-problems. Then break each sub-problem down again.</div>
+      </div>
+    </div>
+
+    <!-- RULE 12 -->
+    <div class="rule-card" id="rule-12" onclick="toggleRule(this)">
+      <div class="rule-header">
+        <div class="rule-number">12</div>
+        <div class="rule-title-wrap">
+          <div class="rule-rule-tag">Rule Twelve</div>
+          <div class="rule-title">Break Someone Else's Code</div>
+        </div>
+        <div class="rule-toggle">+</div>
+      </div>
+      <div class="rule-body">
+        <p>Don't just copy-paste code from Stack Overflow and move on. That teaches you nothing. Next time you see the same problem in a different context, you'll be stuck again.</p>
+        <p>Instead, when you find code that solves your problem:</p>
+        <p><strong>Step 1</strong> — Paste it and confirm it works. <strong>Step 2</strong> — Delete it line by line. Each time you delete a line, observe what breaks and why. <strong>Step 3</strong> — Swap lines around. Does order matter? Why? <strong>Step 4</strong> — Try to rewrite it from scratch without looking.</p>
+        <p>Advanced version: go to GitHub, find a small open-source project, run it, study its structure, then rebuild it from scratch. Compare your version to the original.</p>
+        <div class="rule-tldr"><span>TL;DR — Your Action</span>The next time you copy code from Stack Overflow: delete it line by line and understand every single line before moving on.</div>
+        <div class="quote-block">"Move fast and break things." <span class="quote-attr">— Mark Zuckerberg</span></div>
+      </div>
+    </div>
+
+  </div><!-- /rules-grid -->
+
+  <!-- KEY TAKEAWAYS -->
+  <div class="takeaways">
+    <h2>Your Personal Cheat Sheet</h2>
+    <div class="takeaway-list">
+      <div class="takeaway-item"><span class="takeaway-num">DAILY</span>Code for at least 20 minutes every day, no exceptions.</div>
+      <div class="takeaway-item"><span class="takeaway-num">PURPOSE</span>Build something real — not just tutorial exercises.</div>
+      <div class="takeaway-item"><span class="takeaway-num">STUCK?</span>Try yourself → Google error → Stack Overflow → ask a person.</div>
+      <div class="takeaway-item"><span class="takeaway-num">BLOCKED?</span>Take a break. Walk. Sleep. The answer will come.</div>
+      <div class="takeaway-item"><span class="takeaway-num">PLAN</span>Before coding: write your solution in plain English first.</div>
+      <div class="takeaway-item"><span class="takeaway-num">COPY</span>Clone existing apps to practice — that's how experts learned too.</div>
+      <div class="takeaway-item"><span class="takeaway-num">LEARN</span>Technology changes fast. Stay curious. Never stop learning.</div>
+      <div class="takeaway-item"><span class="takeaway-num">ACCOUNT</span>Tell someone your goal. Find a study partner. Be publicly committed.</div>
+    </div>
+  </div>
+
+  <footer>
+    <strong>12 Rules to Learn to Code</strong> by <span>Dr. Angela Yu</span> · App Brewery 2nd Edition<br>
+    Formatted for AIT Year 1 Web Dev students
+  </footer>
+
+</div>
+
+<script>
+function toggleRule(card) {
+  card.classList.toggle('open');
+}
+// Open first rule on load
+document.querySelector('.rule-card').classList.add('open');
+</script>
+</body>
+</html>
