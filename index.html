@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web Dev Journey</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f0e8;
+    --ink: #1a1510;
+    --accent: #c0392b;
+    --accent2: #e67e22;
+    --mid: #7f8c8d;
+    --card: #fffdf7;
+    --border: #ddd5c5;
+    --surface: #f0ebe0;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HEADER */
+  header {
+    padding: 64px 0 40px;
+    border-bottom: 3px solid var(--ink);
+    margin-bottom: 48px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 24px;
+  }
+  .header-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .header-tag::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 2px;
+    background: var(--accent);
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: clamp(44px, 8vw, 72px);
+    line-height: 1.0;
+    letter-spacing: -1px;
+  }
+  header h1 em { font-style: normal; color: var(--accent); }
+  .header-sub {
+    margin-top: 14px;
+    font-size: 14px;
+    color: var(--mid);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+  .header-sub strong { color: var(--ink); font-weight: 600; }
+  .header-big {
+    font-family: 'Playfair Display', serif;
+    font-size: 100px;
+    font-weight: 900;
+    color: var(--border);
+    line-height: 1;
+    user-select: none;
+  }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--mid);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* CARDS GRID */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 20px;
+    margin-bottom: 56px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 2px solid var(--ink);
+    border-radius: 4px;
+    padding: 28px;
+    text-decoration: none;
+    color: var(--ink);
+    display: block;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 4px 4px 0 var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+  .card:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 7px 7px 0 var(--ink);
+  }
+  .card-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 64px;
+    font-weight: 900;
+    color: var(--border);
+    line-height: 1;
+    margin-bottom: 12px;
+    transition: color 0.2s;
+  }
+  .card:hover .card-num { color: var(--accent); }
+  .card-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+  .card-desc {
+    font-size: 13px;
+    color: var(--mid);
+    line-height: 1.65;
+    margin-bottom: 20px;
+  }
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 16px;
+    border-top: 1.5px solid var(--border);
+  }
+  .card-topics {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--mid);
+  }
+  .card-arrow {
+    font-size: 18px;
+    color: var(--accent);
+    font-weight: 700;
+    transition: transform 0.2s;
+  }
+  .card:hover .card-arrow { transform: translateX(4px); }
+
+  /* COMING SOON CARD */
+  .card.coming-soon {
+    background: var(--surface);
+    border-color: var(--border);
+    box-shadow: 4px 4px 0 var(--border);
+    cursor: default;
+    opacity: 0.7;
+  }
+  .card.coming-soon:hover {
+    transform: none;
+    box-shadow: 4px 4px 0 var(--border);
+  }
+  .card.coming-soon .card-num { color: var(--border); }
+  .card.coming-soon .card-arrow { display: none; }
+  .card-badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--mid);
+    padding: 3px 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* PROGRESS BAR */
+  .progress-section {
+    background: var(--card);
+    border: 2px solid var(--ink);
+    border-radius: 4px;
+    padding: 28px;
+    margin-bottom: 56px;
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+  .progress-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1.5px solid var(--border);
+  }
+  .progress-list { display: grid; gap: 10px; }
+  .progress-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 13px;
+  }
+  .progress-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    background: var(--surface);
+    flex-shrink: 0;
+  }
+  .progress-dot.done {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .progress-dot.active {
+    border-color: var(--accent);
+    background: var(--bg);
+    box-shadow: 0 0 0 3px rgba(192,57,43,0.15);
+  }
+  .progress-name { flex: 1; color: var(--ink); }
+  .progress-name.pending { color: var(--mid); }
+  .progress-status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--mid);
+    letter-spacing: 1px;
+  }
+  .progress-status.active { color: var(--accent); }
+
+  footer {
+    text-align: center;
+    padding: 32px 0 48px;
+    color: var(--mid);
+    font-size: 12px;
+    border-top: 2px solid var(--border);
+  }
+  footer span { color: var(--accent); font-weight: 600; }
+
+  @media (max-width: 600px) {
+    header { grid-template-columns: 1fr; }
+    .header-big { display: none; }
+    .cards { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div>
+      <div class="header-tag">AIT Year 1 · Accra Institute of Technology · Ghana</div>
+      <h1>Web Dev<br><em>Journey</em></h1>
+      <p class="header-sub">
+        My personal study hub for the <strong>Complete Full-Stack Web Dev Bootcamp</strong><br>
+        by Dr. Angela Yu · All notes, resources & projects in one place.
+      </p>
+    </div>
+    <div class="header-big">WD</div>
+  </header>
+
+  <!-- RESOURCES -->
+  <div class="section-label">Course Resources</div>
+  <div class="cards">
+
+    <a href="resources/web_dev_syllabus.html" class="card">
+      <div class="card-num">01</div>
+      <div class="card-tag">Reference · Course Map</div>
+      <div class="card-title">Web Dev Bootcamp Syllabus</div>
+      <div class="card-desc">The complete course roadmap — all 10 modules from HTML to Web3, your learning path, and FAQs about the bootcamp.</div>
+      <div class="card-footer">
+        <span class="card-topics">10 modules · 60+ topics</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="resources/12_rules_to_learn_to_code.html" class="card">
+      <div class="card-num">02</div>
+      <div class="card-tag">Mindset · Dr. Angela Yu</div>
+      <div class="card-title">12 Rules to Learn to Code</div>
+      <div class="card-desc">The essential mindset guide before writing a single line of code. Rules on habits, motivation, debugging and staying consistent.</div>
+      <div class="card-footer">
+        <span class="card-topics">12 rules · 2nd edition</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- SECTIONS — coming soon placeholders -->
+  <div class="section-label">Course Sections</div>
+  <div class="cards">
+
+    <div class="card coming-soon">
+      <div class="card-badge">In Progress</div>
+      <div class="card-num">S1</div>
+      <div class="card-tag">Section 01</div>
+      <div class="card-title">HTML5</div>
+      <div class="card-desc">Structure of the web. Tags, elements, attributes, links, images and building your first webpage.</div>
+      <div class="card-footer">
+        <span class="card-topics">Notes & projects coming soon</span>
+      </div>
+    </div>
+
+    <div class="card coming-soon">
+      <div class="card-badge">Upcoming</div>
+      <div class="card-num">S2</div>
+      <div class="card-tag">Section 02</div>
+      <div class="card-title">CSS3</div>
+      <div class="card-desc">Styling, Flexbox, Grid, Bootstrap, responsive design and web design principles.</div>
+      <div class="card-footer">
+        <span class="card-topics">Notes & projects coming soon</span>
+      </div>
+    </div>
+
+    <div class="card coming-soon">
+      <div class="card-badge">Upcoming</div>
+      <div class="card-num">S3</div>
+      <div class="card-tag">Section 03</div>
+      <div class="card-title">JavaScript</div>
+      <div class="card-desc">Logic, functions, loops, arrays, objects, DOM manipulation and ES6 features.</div>
+      <div class="card-footer">
+        <span class="card-topics">Notes & projects coming soon</span>
+      </div>
+    </div>
+
+    <div class="card coming-soon">
+      <div class="card-badge">Upcoming</div>
+      <div class="card-num">S4</div>
+      <div class="card-tag">Section 04</div>
+      <div class="card-title">React.js</div>
+      <div class="card-desc">Components, props, state, hooks and building modern frontend UIs.</div>
+      <div class="card-footer">
+        <span class="card-topics">Notes & projects coming soon</span>
+      </div>
+    </div>
+
+    <div class="card coming-soon">
+      <div class="card-badge">Upcoming</div>
+      <div class="card-num">S5</div>
+      <div class="card-tag">Section 05</div>
+      <div class="card-title">Node.js & Express</div>
+      <div class="card-desc">Server-side JS, REST APIs, routing, middleware and EJS templating.</div>
+      <div class="card-footer">
+        <span class="card-topics">Notes & projects coming soon</span>
+      </div>
+    </div>
+
+    <div class="card coming-soon">
+      <div class="card-badge">Upcoming</div>
+      <div class="card-num">S6</div>
+      <div class="card-tag">Section 06</div>
+      <div class="card-title">PostgreSQL</div>
+      <div class="card-desc">Relational databases, SQL queries, schemas, authentication and sessions.</div>
+      <div class="card-footer">
+        <span class="card-topics">Notes & projects coming soon</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PROGRESS TRACKER -->
+  <div class="section-label">My Progress</div>
+  <div class="progress-section">
+    <div class="progress-title">Bootcamp Progress Tracker</div>
+    <div class="progress-list">
+      <div class="progress-item">
+        <div class="progress-dot active"></div>
+        <span class="progress-name">HTML5</span>
+        <span class="progress-status active">In Progress</span>
+      </div>
+      <div class="progress-item">
+        <div class="progress-dot"></div>
+        <span class="progress-name pending">CSS3 + Flexbox + Bootstrap</span>
+        <span class="progress-status">Upcoming</span>
+      </div>
+      <div class="progress-item">
+        <div class="progress-dot"></div>
+        <span class="progress-name pending">JavaScript ES6</span>
+        <span class="progress-status">Upcoming</span>
+      </div>
+      <div class="progress-item">
+        <div class="progress-dot"></div>
+        <span class="progress-name pending">Git & GitHub</span>
+        <span class="progress-status">Upcoming</span>
+      </div>
+      <div class="progress-item">
+        <div class="progress-dot"></div>
+        <span class="progress-name pending">React.js</span>
+        <span class="progress-status">Upcoming</span>
+      </div>
+      <div class="progress-item">
+        <div class="progress-dot"></div>
+        <span class="progress-name pending">Node.js & Express</span>
+        <span class="progress-status">Upcoming</span>
+      </div>
+      <div class="progress-item">
+        <div class="progress-dot"></div>
+        <span class="progress-name pending">SQL & PostgreSQL</span>
+        <span class="progress-status">Upcoming</span>
+      </div>
+      <div class="progress-item">
+        <div class="progress-dot"></div>
+        <span class="progress-name pending">Web3 & Blockchain</span>
+        <span class="progress-status">Upcoming</span>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>nanda-1-wq</span> · Web Dev Journey · Dr. Angela Yu Bootcamp · AIT Ghana
+  </footer>
+
+</div>
+</body>
+</html>
